@@ -15,5 +15,8 @@ class Investment(models.Model):
     asset_type = models.CharField(max_length=10, choices=ASSET_TYPE)
     buy_date = models.DateField()
 
+    # current_price is the latest price of the asset, which can be updated periodically
+    current_price = models.FloatField(default=0.0) 
+
     def __str__(self):
         return f"{self.symbol} - {self.user.username}"
