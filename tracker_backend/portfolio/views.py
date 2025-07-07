@@ -4,6 +4,7 @@ from .serializers import InvestmentSerializer
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from .ml.predictor import predict_stock
 
 # Create your views here.
 class InvestmentViewSet(viewsets.ModelViewSet):
@@ -53,4 +54,15 @@ def portfolio_summary(request):
         }
     })
 
- 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def predict_view(request):
+    user = request.user
+    investments = Investment.objects.filter(user=user)
+    result ={}
+
+    for inv in investments:
+        symbol = inv.symbol.upper()
+        result[symbol] = predict_stock(symbol)
+
+    return Response(result)

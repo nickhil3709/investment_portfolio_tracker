@@ -1,0 +1,43 @@
+.dashboard {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 10px;
+  background-color: #f4f8fb;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.dashboard h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard h3 {
+  font-size: 22px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-section {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.summary-item {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.asset-list {
+  margin-left: 20px;
+  font-size: 16px;
+}
