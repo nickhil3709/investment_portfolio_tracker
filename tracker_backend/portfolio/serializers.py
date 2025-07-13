@@ -5,3 +5,4 @@ class InvestmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Investment
         fields = '__all__'
+        read_only_fields = ['user']
