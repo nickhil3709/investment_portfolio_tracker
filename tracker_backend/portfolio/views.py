@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .ml.predictor import predict_stock
-
+from .sip_calculator import simulate_sip
 # Create your views here.
 class InvestmentViewSet(viewsets.ModelViewSet):
     queryset = Investment.objects.all()
@@ -66,3 +66,20 @@ def predict_view(request):
         result[symbol] = predict_stock(symbol)
 
     return Response(result)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def simulate_sip_view(request):
+    try:
+        data = request.data
+        monthly = float(data.get('monthly_investment'))
+        rate = float(data.get('expected_annual_return'))
+        years = int(data.get('years'))
+
+
+        result = simulate_sip(monthly, rate, years)
+        return Response(result)
+    
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)

@@ -13,9 +13,17 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('tokens', JSON.stringify(tokens));
     }
   }, [tokens]);
+  const saveTokens = (newTokens) => {
+    setTokens(newTokens);
+    localStorage.setItem('tokens', JSON.stringify(newTokens));
+  };
 
+  const logout = () => {
+    setTokens(null);
+    localStorage.removeItem('tokens');
+  };
   return (
-    <AuthContext.Provider value={{ tokens, setTokens }}>
+    <AuthContext.Provider value={{  tokens, setTokens: saveTokens, logout}}>
       {children}
     </AuthContext.Provider>
   );

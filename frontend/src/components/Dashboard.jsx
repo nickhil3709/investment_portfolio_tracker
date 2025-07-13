@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import './Dashboard.css';
@@ -10,8 +11,14 @@ import PredictionResults from './PredictionResults';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
+   const navigate = useNavigate();
   const { tokens } = useContext(AuthContext);
   const [summary, setSummary] = useState(null);
+  const {logout} = useContext(AuthContext);
+   const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +64,9 @@ const pieOptions = {
   return (
     <div className="dashboard">
       <h2>📊 Portfolio Summary</h2>
-
+      <button onClick={() => navigate('/sip')}>Go to SIP Calculator</button>
+      <br /><br />
+      <button onClick={handleLogout}>🚪 Logout</button>
       <div className="summary-section">
         <div className="summary-item">💸 <strong>Total Invested:</strong> ₹{summary.total_invested}</div>
         <div className="summary-item">📈 <strong>Current Value:</strong> ₹{summary.current_value}</div>
