@@ -1,109 +1,89 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import API from '../api/axios';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import './Dashboard.css';
+import API from '../api/axios';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import InvestmentForm from './InvestmentForm';
-import InvestmentList from './InvestmentList';
-import PredictionResults from './PredictionResults';
+import { useNavigate } from 'react-router-dom';
+import './Dashboard.css';
+import Navbar from './Navbar';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { tokens } = useContext(AuthContext);
   const [summary, setSummary] = useState(null);
-  const {logout} = useContext(AuthContext);
-   const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSummary = async () => {
       try {
         const res = await API.get('portfolio/summary/', {
           headers: {
-            Authorization: `Bearer ${tokens?.access}`
+            Authorization: `Bearer ${tokens.access}`
           }
         });
         setSummary(res.data);
       } catch (err) {
-        console.error('Fetch error:', err);
+        console.error('Failed to fetch summary:', err);
       }
     };
-
-    fetchData();
+    fetchSummary();
   }, [tokens]);
 
-  if (!summary) return <p>Loading dashboard...</p>;
-
+  if (!summary) return <p>Loading portfolio summary...</p>;
 
   const pieData = {
-  labels: ['Stock', 'Bond'],
-  datasets: [
-    {
-      label: '₹ Value',
+    labels: ['Stock', 'Bond'],
+    datasets: [{
       data: [summary.asset_breakdown.stock, summary.asset_breakdown.bond],
       backgroundColor: ['#4e79a7', '#f28e2c'],
       borderColor: ['#ffffff', '#ffffff'],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const pieOptions = {
-  plugins: {
-    legend: {
-      position: 'bottom',
-    },
-  },
-};
+      borderWidth: 1
+    }]
+  };
 
   return (
     <div className="dashboard">
-      <h2>📊 Portfolio Summary</h2>
-      <button onClick={() => navigate('/sip')}>Go to SIP Calculator</button>
-      <br /><br />
-      <button onClick={handleLogout}>🚪 Logout</button>
-      <div className="summary-section">
-        <div className="summary-item">💸 <strong>Total Invested:</strong> ₹{summary.total_invested}</div>
-        <div className="summary-item">📈 <strong>Current Value:</strong> ₹{summary.current_value}</div>
-        <div className="summary-item">💰 <strong>Total PnL:</strong> ₹{summary.total_pnl}</div>
+      {/* Navigation Buttons */}
+      <div className="dashboard-header">
+        <h2>📊 Portfolio Dashboard</h2>
+         <Navbar />
       </div>
 
-      <h3>🔍 Asset Breakdown</h3>
-      <ul className="asset-list">
-        <li>📉 <strong>Stock:</strong> ₹{summary.asset_breakdown.stock}</li>
-        <li>🏦 <strong>Bond:</strong> ₹{summary.asset_breakdown.bond}</li>
-      </ul>
-      <h3>📊 Asset Allocation</h3>
-     <div style={{ maxWidth: '400px', marginTop: '10px' }}>
-    <Pie data={pieData} options={pieOptions} />
-   </div>
-   <PredictionResults />
-   <InvestmentForm onAdded={() => {
-  // Trigger the same fetch function again to update the summary
-  const fetchData = async () => {
-    try {
-      const res = await API.get('portfolio/summary/', {
-        headers: {
-          Authorization: `Bearer ${tokens?.access}`
+      {/* Overview Section */}
+      <div className="dashboard-section">
+        <h3>📊 Portfolio Summary</h3>
+        <div className="summary-section">
+          <div className="summary-item">💸 Total Invested: ₹{summary.total_invested}</div>
+          <div className="summary-item">📈 Current Value: ₹{summary.current_value}</div>
+          <div className="summary-item">💰 Total PnL: ₹{summary.total_pnl}</div>
+        </div>
+
+        <h3>🔍 Asset Breakdown</h3>
+        <ul className="asset-list">
+          <li>📉 Stock: ₹{summary.asset_breakdown.stock}</li>
+          <li>🏦 Bond: ₹{summary.asset_breakdown.bond}</li>
+        </ul>
+
+        <h3>📊 Asset Allocation</h3>
+        <div className="chart-wrapper" style={{ maxWidth: '280px', margin: '0 auto' }}>
+  <Pie
+    data={pieData}
+    options={{
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
         }
-      });
-      setSummary(res.data);
-    } catch (err) {
-      console.error('Fetch error:', err);
-    }
-  };
+      }
+    }}
+    width={250}
+    height={250}
+  />
+</div>
 
-  fetchData();
-}} />
-
-<InvestmentList />
+      </div>
     </div>
-   
   );
 };
 

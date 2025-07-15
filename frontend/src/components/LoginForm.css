@@ -39,7 +39,7 @@
 
 .login-box h2 {
   margin-bottom: 50px;
-  font-size: 42px;
+  font-size: 48px; /* Increased from 42px */
   font-weight: 700;
   color: #1a1a1a;
   letter-spacing: -0.02em;
@@ -55,7 +55,7 @@
 .input-group label {
   display: block;
   margin-bottom: 12px;
-  font-size: 17px;
+  font-size: 20px; /* Increased from 17px */
   font-weight: 500;
   color: #374151;
   letter-spacing: 0.01em;
@@ -63,10 +63,10 @@
 
 .login-box input {
   width: 100%;
-  padding: 24px 28px;
+  padding: 26px 30px; /* Increased padding */
   border: 2px solid #e5e7eb;
   border-radius: 12px;
-  font-size: 20px;
+  font-size: 22px; /* Increased from 20px */
   font-weight: 400;
   color: #1f2937;
   background: #fafafa;
@@ -85,16 +85,17 @@
 .login-box input::placeholder {
   color: #9ca3af;
   font-weight: 400;
+  font-size: 20px; /* Increased placeholder font size */
 }
 
 .login-box button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 24px 28px;
+  padding: 26px 30px; /* Increased padding */
   border: none;
   width: 100%;
   border-radius: 12px;
-  font-size: 20px;
+  font-size: 22px; /* Increased from 20px */
   font-weight: 600;
   cursor: pointer;
   margin-top: 30px;
@@ -121,9 +122,9 @@
 .error-message {
   color: #ef4444;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 18px; /* Increased from 16px */
   font-weight: 500;
-  padding: 16px 20px;
+  padding: 18px 22px; /* Increased padding */
   background: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: 8px;
@@ -134,7 +135,7 @@
 
 .error-message::before {
   content: '⚠️';
-  font-size: 18px;
+  font-size: 20px; /* Increased from 18px */
 }
 
 .forgot-password {
@@ -145,7 +146,7 @@
 .forgot-password a {
   color: #667eea;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px; /* Increased from 16px */
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -165,9 +166,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 20px;
-  height: 20px;
-  margin: -10px 0 0 -10px;
+  width: 22px; /* Increased from 20px */
+  height: 22px; /* Increased from 20px */
+  margin: -11px 0 0 -11px;
   border: 2px solid transparent;
   border-top: 2px solid white;
   border-radius: 50%;
@@ -190,7 +191,7 @@
   }
   
   .login-box h2 {
-    font-size: 28px;
+    font-size: 32px; /* Increased from 28px */
     margin-bottom: 24px;
   }
   
@@ -198,8 +199,17 @@
     margin-bottom: 20px;
   }
   
+  .input-group label {
+    font-size: 18px; /* Increased mobile label font */
+  }
+  
   .login-box input {
-    padding: 14px 16px;
-    font-size: 20px; /* Prevents zoom on iOS */
+    padding: 16px 18px; /* Increased mobile padding */
+    font-size: 22px; /* Maintains readable size on mobile */
+  }
+  
+  .login-box button {
+    font-size: 20px; /* Increased mobile button font */
+    padding: 18px 20px;
   }
 }

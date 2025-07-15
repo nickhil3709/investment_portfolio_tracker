@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import API from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
-
+import './Dashboard.css';
+import Navbar from'./Navbar.jsx';
 const SIPCalculator = () => {
   const { tokens } = useContext(AuthContext);
   const [monthlyInvestment, setMonthlyInvestment] = useState(10000);
@@ -30,7 +31,12 @@ const SIPCalculator = () => {
 
   return (
     <div>
+      <div className="dashboard-section">
+       <div className="dashboard-header">
       <h2>📊 SIP Simulation</h2>
+      <Navbar />
+      </div>
+      </div>
       <input type="number" value={monthlyInvestment} onChange={e => setMonthlyInvestment(+e.target.value)} />
       <input type="number" value={annualRate} onChange={e => setAnnualRate(+e.target.value)} />
       <input type="number" value={years} onChange={e => setYears(+e.target.value)} />
