@@ -83,3 +83,39 @@ def simulate_sip_view(request):
     
     except Exception as e:
         return Response({"error": str(e)}, status=400)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def rebalance_portfolio(request):
+    user = request.user
+    data = request.data
+
+    target_stock_pct = float(data.get('target_stock',0))/100
+    target_bond_pct = float(data.get('target_bond',0))/100
+
+    investments = Investment.objects.filter(user=user)
+
+    current_stock = sum(inv.quantity * inv.buy_price for inv in investments if inv.asset_type.lower() == 'stock')
+    current_bond = sum(inv.quantity * inv.buy_price for inv in investments if inv.asset_type.lower() == 'bond')
+    
+    current_total = current_stock + current_bond
+
+    target_stock_value = current_total * target_stock_pct
+    target_bond_value = current_total * target_bond_pct
+
+    rebalance = {
+        "current": {
+            'stock': round(current_stock,2),
+            'bond': round(current_bond,2),
+        },
+        "target": {
+            'stock': round(target_stock_value, 2),
+            'bond': round(target_bond_value, 2),
+        },
+        "recommendation": {
+            "stock": round(target_stock_value - current_stock, 2),
+            "bond": round(target_bond_value - current_bond, 2),
+        }
+    }
+
+    return Response(rebalance)
