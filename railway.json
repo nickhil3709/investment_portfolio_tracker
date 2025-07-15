@@ -4,9 +4,9 @@
       "PYTHONUNBUFFERED": "1"
     },
     "builder": "heroku/buildpacks:20",
-    "buildCommand": "cd backend && pip install -r requirements.txt"
+    "buildCommand": "cd tracker_backend && pip install -r requirements.txt"
   },
   "deploy": {
-    "startCommand": "cd backend && gunicorn tracker_backend.wsgi"
+    "startCommand": "cd tracker_backend && gunicorn tracker_backend.wsgi"
   }
 }
