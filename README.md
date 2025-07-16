@@ -1,6 +1,3 @@
-Here is a professional `README.md` file tailored for your **Investment Portfolio Tracker** project built with **React, Django, and ML**:
-
----
 
 # 📊 Investment Portfolio Tracker
 
